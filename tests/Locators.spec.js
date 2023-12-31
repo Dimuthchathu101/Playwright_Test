@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test('First Test Case', async ({page}) => { 
+test('Locators', async ({page}) => { 
     await page.goto('https://demoblaze.com/index.html');
 
     await page.click('id=login2')
