@@ -1,14 +1,25 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, chromium } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.goto('http://localhost:3000/home');
-  await page.getByRole('link', { name: 'Home' }).click();
-  await page.getByRole('heading', { name: 'Easy way to make an order' }).click();
-  await page.getByText('Want to be SMART ?').click();
-  await page.getByRole('heading', { name: 'Want to be SMART ? Order' }).click({
-    button: 'right'
-  });
-  await page.getByRole('heading', { name: 'Want to be SMART ? Order' }).click();
-  await page.getByText('No shipping charge').click();
-  await page.getByRole('link', { name: 'See all blazers' }).click();
+  const browser = await chromium.launch();
+  const context = await browser.newContext();
+
+  // Navigate to the login
+  const newPage = await context.newPage();
+  await newPage.goto('http://localhost:3000/home');
+
+  // Checking the availability of the header
+  await newPage.waitForSelector("//header/div[1]/div[1]/div[3]/span[2]/a[1]/i[1]");
+  await newPage.click("//header/div[1]/div[1]/div[3]/span[2]/a[1]/i[1]");
+
+  // Checking blazer.io
+  await newPage.waitForSelector("//div[contains(text(),'blazer.io')]");
+  // Add additional checks or actions if needed
+
+  // Checking the Login Header
+  await newPage.waitForSelector("//h1[contains(text(),'Login')]");
+  // Add additional checks or actions if needed
+
+  await browser.close();
 });
+
